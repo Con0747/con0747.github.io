@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Withdrawals</title>
+    <style>
+        h1 {
+                margin:0px;
+                color:#DCDCCC;
+            }
+            body {
+                background-color: #3F3F3F;
+                margin:10px;
+            }
+            th, td {
+                padding: 5px;
+                border: 1px solid;
+                text-align:center;
+                font-weight: 550;
+            }
+            th {
+                background-color: #808080;
+            }
+            tr{
+                background-color:#D3D3D3;
+            }
+            tr:nth-child(odd) {
+                background-color: #808080;
+            }
+            table {
+                border-collapse: collapse;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Withdrawals</h1>
+        <div id="tableHolder"></div>
+    </div>
+    
+    <script>
+        var drugs = [
+            {
+                "name": "Alamycin/Tetroxy",
+                "nonorganic": 24,
+                "organic": 48
+            },
+            {
+                "name": "Tuloxxin",
+                "nonorganic": 16,
+                "organic": 32
+            },
+            {
+                "name": "Loxicom",
+                "nonorganic": 23,
+                "organic": 46
+            },
+            {
+                "name": "Pen&Strep",
+                "nonorganic": 31,
+                "organic": 62
+            },
+            {
+                "name": "Trymox",
+                "nonorganic": 29,
+                "organic": 58
+            },
+            {
+                "name": "Heptivac/Ovivac",
+                "nonorganic": 0,
+                "organic": 2
+            },
+            {
+                "name": "Tolracol",
+                "nonorganic": 42,
+                "organic": 84
+            },
+            {
+                "name": "Rapidexon",
+                "nonorganic": 8,
+                "organic": 16
+            },
+            {
+                "name": "Adrenicaine",
+                "nonorganic": 0,
+                "organic": 0
+            }];
+            
+            function capitalizeFirstLetter(val) {
+                return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+            }
+            
+            function createTable(headers){
+                var table = document.createElement('table');
+                header = document.createElement('tr');
+                table.appendChild(header);
+                for (var i=0; i<headers.length; i++) {
+                    header.appendChild(document.createElement("th")).appendChild(document.createTextNode(capitalizeFirstLetter(headers[i])));
+                }
+                return table;
+            }
+            
+            function addWithdrawlDays(days){
+                d = new Date();
+                d.setDate(d.getDate()+days);
+                return d.toISOString().substring(0, 10);
+            }
+            
+            function populateTable(table, content){
+                for (m = 0; m < content.length; m++) {
+                        var row = table.insertRow(-1);
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = content[m].name;
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = content[m].nonorganic;
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = addWithdrawlDays(content[m].nonorganic);
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = content[m].organic;
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = addWithdrawlDays(content[m].organic);
+                }  
+            }
+        
+            function createAndPopulatetable(content){
+                table = createTable(["Name","Non-Organic Days"," End Date","Organic Days"," End Date"]);//Object.keys(content[0]));
+                populateTable(table, content);
+                return table
+            }
+            
+            var table = createAndPopulatetable(drugs);            
+            var tableHolder = document.getElementById("tableHolder");
+            tableHolder.appendChild(table);
+            
+            
+            console.log(drugs);
+            
+            
+    </script>
+</body>
+</html>
