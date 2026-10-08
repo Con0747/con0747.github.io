@@ -35,7 +35,7 @@
 
 <body>
     <div class="header">
-        <h1>Withdrawals</h1>
+        <h1>Withdrawals</h1> <input type="date" id="inputDate" name="inputDate">
         <div id="tableHolder"></div>
     </div>
     
@@ -87,6 +87,8 @@
                 "organic": 0
             }];
             
+            const field = document.querySelector('#inputDate');
+            
             function capitalizeFirstLetter(val) {
                 return String(val).charAt(0).toUpperCase() + String(val).slice(1);
             }
@@ -102,9 +104,9 @@
             }
             
             function addWithdrawlDays(days){
-                d = new Date();
+                d = new Date(field.value);
                 d.setDate(d.getDate()+days);
-                return d.toISOString().substring(0, 10);
+                return d.getDate().toString().padStart(2, 0) + '/' + (d.getMonth() + 1).toString().padStart(2, 0) + '/' + d.getFullYear().toString();
             }
             
             function populateTable(table, content){
@@ -129,13 +131,18 @@
                 return table
             }
             
-            var table = createAndPopulatetable(drugs);            
-            var tableHolder = document.getElementById("tableHolder");
-            tableHolder.appendChild(table);
+            function drawTable(){
+                var table = createAndPopulatetable(drugs);            
+                var tableHolder = document.getElementById("tableHolder");
+                tableHolder.innerHTML = '';
+                tableHolder.appendChild(table);
+            }
             
+            var date = new Date();
+            field.value = date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString().padStart(2, 0) + '-' + date.getDate().toString().padStart(2, 0);
             
-            console.log(drugs);
-            
+            field.onchange = function(){console.log("TEST");drawTable();};
+            drawTable();
             
     </script>
 </body>
